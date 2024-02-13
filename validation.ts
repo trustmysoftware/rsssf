@@ -11,17 +11,13 @@ export const validate = async (ctx: Context, next: Next) => {
     return;
   }
 
-  // TODO: refreshable tokens in redis or something (something easy)
+  // TODO: refreshable tokens in redis or something (something easy... sqlite?! maybe!)
   if (api_token !== "abc_123_secret_key") {
     ctx.response.status = 401;
     ctx.response.body =
       "Bad `key` query parameter (api_token is invalid, maybe it expired?)";
     return;
   }
-
-  ctx.state = {
-    api_token,
-  };
 
   await next();
 };
