@@ -12,9 +12,12 @@
     function clickhandler() {
       const feed_input = document.querySelector("#feed-input");
       const feed_output = document.querySelector("#feed-output");
+      const semver_select = document.querySelector(
+        'input[name="semver-select"]:checked'
+      ).value;
 
       const urlencoded = encodeURIComponent(feed_input.value);
-      const url = `/major?q=${urlencoded}`;
+      const url = `/${semver_select}?q=${urlencoded}`;
       feed_output.setAttribute("href", url);
       feed_output.innerHTML = url;
     }
@@ -23,7 +26,11 @@
   <h1>RSSSF <sub class="tiny">RSS simple software semver feeds</sub></h1>
   <summary>Generates more useful RSS feeds from software URLS</summary>
 
-  <p>insert a URL under that links to a repository (currently only github)</p>
+  <p>insert a URL under that links to a repository</p>
+  <ul>
+    <li>currently only github</li>
+    <li>filters out prereleases and drafts</li>
+  </ul>
 
   <div>
     <input type="radio" id="major" name="semver-select" value="major" />
@@ -40,6 +47,6 @@
   <a id="feed-output" href="#"></a>
 
   <div>
-    <a href="#">host your own</a>
+    <a href="https://github.com/trustmysoftware/rsssf">host your own</a>
   </div>
 </html>

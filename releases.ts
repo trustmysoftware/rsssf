@@ -28,7 +28,7 @@ export const get_release_items = async (
       return {
         title: release.name,
         date: new Date(release.published_at),
-        url: release.url,
+        url: release.html_url,
         content: release.body, // <![CDATA[ ' .nl2br($desc_data). ' ]]>
         description: `new major version ${release.name}`,
         image: release.author.gravatar_url,
