@@ -33,10 +33,10 @@ export const generate_feed = (
     copyright: "MIT",
     updated: new Date(),
     generator: "Feed for Node.js",
-    feedLinks: {
-      json: "https://example.com/json",
-      atom: "https://example.com/atom",
-    },
+    // feedLinks: {
+    //   json: "https://example.com/json",
+    //   atom: "https://example.com/atom",
+    // },
     author: {
       name: release.author.login,
       //   email: "johndoe@example.com",

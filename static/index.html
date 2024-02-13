@@ -30,6 +30,14 @@
   <ul>
     <li>currently only github</li>
     <li>filters out prereleases and drafts</li>
+    <li>
+      <code>key</code> is a queryparam since most rss readers don't have a
+      convenient way of setting headers
+    </li>
+    <li>
+      tokens expire after being unused for some time (most RSS readers should
+      poll frequently enough to avoid expiration)
+    </li>
   </ul>
 
   <div>
