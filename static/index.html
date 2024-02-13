@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .tiny {
+        font-size: small;
+      }
+    </style>
+  </head>
+
+  <script>
+    function clickhandler() {
+      const feed_input = document.querySelector("#feed-input");
+      const feed_output = document.querySelector("#feed-output");
+
+      const urlencoded = encodeURIComponent(feed_input.value);
+      const url = `/major?q=${urlencoded}`;
+      feed_output.setAttribute("href", url);
+      feed_output.innerHTML = url;
+    }
+  </script>
+
+  <h1>RSSSF <sub class="tiny">RSS simple software semver feeds</sub></h1>
+  <summary>Generates more useful RSS feeds from software URLS</summary>
+
+  <p>insert a URL under that links to a repository (currently only github)</p>
+
+  <div>
+    <input type="radio" id="major" name="semver-select" value="major" />
+    <label for="major">Major</label>
+    <input type="radio" id="minor" name="semver-select" value="minor" />
+    <label for="minor">Minor</label>
+    <input type="radio" id="patch" name="semver-select" value="patch" />
+    <label for="patch">Patch</label>
+  </div>
+
+  <input id="feed-input" type="text" />
+  <button onclick="clickhandler()">get feed</button>
+
+  <a id="feed-output" href="#"></a>
+
+  <div>
+    <a href="#">host your own</a>
+  </div>
+</html>
