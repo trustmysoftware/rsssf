@@ -1,5 +1,10 @@
 import { getQuery } from "https://deno.land/x/oak@v13.1.0/helpers.ts";
 import { Context, Next } from "https://deno.land/x/oak@v13.1.0/mod.ts";
+import { createClient } from "npm:redis@^4.6";
+
+const redis = await createClient({
+  url: Deno.env.get("UPSTASH_REDIS_REST_URL"),
+}).connect();
 
 export const validate = async (ctx: Context, next: Next) => {
   const api_token = getQuery(ctx, { mergeParams: true }).key;
@@ -11,8 +16,7 @@ export const validate = async (ctx: Context, next: Next) => {
     return;
   }
 
-  // TODO: refreshable tokens in redis or something (something easy... sqlite?! maybe!)
-  if (api_token !== "abc_123_secret_key") {
+  if ((await redis.get(api_token)) === null) {
     ctx.response.status = 401;
     ctx.response.body =
       "Bad `key` query parameter (api_token is invalid, maybe it expired?)";
