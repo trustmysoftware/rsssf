@@ -1,5 +1,4 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-// import { CSS } from "https://deno.land/x/gfm/mod.ts"; // TODO styles for the md
 import { getQuery } from "https://deno.land/x/oak@v13.1.0/helpers.ts";
 import { add } from "npm:date-fns@3.3.1";
 
