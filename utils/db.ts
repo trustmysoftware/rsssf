@@ -1,4 +1,4 @@
-import { MongoClient } from "npm:mongodb@6.3.0";
+import { MongoClient } from "db";
 
 export const get_mongo_collection = async () => {
   const url = Deno.env.get("MONGODB_URL");
@@ -12,3 +12,5 @@ export const get_mongo_collection = async () => {
   const collection = db.collection("api-tokens");
   return collection;
 };
+
+export const api_tokens = await get_mongo_collection();

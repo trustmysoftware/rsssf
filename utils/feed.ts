@@ -1,4 +1,5 @@
-import { Feed } from "npm:feed";
+import { Feed } from "feed";
+import { get_release_items, SemverSelect } from "./releases.ts";
 
 export type ReleaseItem = {
   title: string;
@@ -9,10 +10,10 @@ export type ReleaseItem = {
   image?: string;
 };
 
-export const generate_feed = (
+const generate_feed = (
   url: string,
   repo_name: string,
-  releases: ReleaseItem[]
+  releases: ReleaseItem[],
 ) => {
   const release = {
     name: "v1.34.2",
@@ -62,4 +63,15 @@ export const generate_feed = (
   return feed.atom1();
   // feed.rss2()
   // feed.json1()
+};
+
+export const process_feed = async (
+  api_token: string,
+  repo_url: string,
+  semver_select: SemverSelect,
+) => {
+  const repo_name = repo_url.split("/").pop()!;
+  const releases = await get_release_items(repo_url, api_token, semver_select);
+  const feeds = await generate_feed(repo_url, repo_name, releases);
+  return feeds;
 };

@@ -1,4 +1,4 @@
-import * as semver from "https://deno.land/std@0.215.0/semver/mod.ts";
+import * as semver from "semver";
 import { ReleaseItem } from "./feed.ts";
 
 export type SemverSelect = "major" | "minor" | "patch";
@@ -6,10 +6,11 @@ export type SemverSelect = "major" | "minor" | "patch";
 export const get_release_items = async (
   url: string,
   api_token: string,
-  semver_select: SemverSelect
+  semver_select: SemverSelect,
 ): Promise<ReleaseItem[]> => {
   const urlObj = new URL(url);
-  const github_api_url = `https://api.github.com/repos${urlObj.pathname}/releases?per_page=100`;
+  const github_api_url =
+    `https://api.github.com/repos${urlObj.pathname}/releases?per_page=100`;
   const dataJson = await fetch(github_api_url, {
     headers: {
       Accept: "application/vnd.github+json",
