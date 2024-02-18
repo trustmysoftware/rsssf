@@ -1,4 +1,4 @@
-FROM denoland/deno:debian-1.40.5
+FROM denoland/deno:1.40.4
 
 ARG GIT_REVISION
 ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
@@ -10,4 +10,4 @@ RUN deno cache main.ts
 
 EXPOSE 8000
 
-CMD ["task", "preview"]
+CMD ["run", "-A", "main.ts"]

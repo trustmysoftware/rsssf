@@ -1,4 +1,4 @@
-import { MongoClient } from "db";
+import { MongoClient } from "mongodb";
 
 export const get_mongo_collection = async () => {
   const url = Deno.env.get("MONGODB_URL");
