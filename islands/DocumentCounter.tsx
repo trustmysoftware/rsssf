@@ -14,8 +14,12 @@ export default function DocumentCounter({ count }: CounterProps) {
     (async () => {
       const token_count = await (await fetch("/api/token-count")).json();
 
+      console.log({ token_count });
+
       count.value = token_count.api_tokens_count;
-      progress.value = count.value / token_count.max_api_tokens;
+      progress.value = Math.ceil(
+        (count.value / token_count.max_api_tokens) * 100,
+      );
     })();
   });
 
