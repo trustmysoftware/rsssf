@@ -1,4 +1,5 @@
 import { Feed } from "feed";
+import { TokenData } from "../routes/_middleware.ts";
 import { get_release_items, SemverSelect } from "./releases.ts";
 
 export type ReleaseItem = {
@@ -66,12 +67,16 @@ const generate_feed = (
 };
 
 export const process_feed = async (
-  api_token: string,
+  api_token_data: TokenData,
   repo_url: string,
   semver_select: SemverSelect,
 ) => {
   const repo_name = repo_url.split("/").pop()!;
-  const releases = await get_release_items(repo_url, api_token, semver_select);
+  const releases = await get_release_items(
+    repo_url,
+    api_token_data,
+    semver_select,
+  );
   const feeds = await generate_feed(repo_url, repo_name, releases);
   return feeds;
 };

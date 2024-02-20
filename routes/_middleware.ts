@@ -1,10 +1,5 @@
 import { FreshContext } from "$fresh/server.ts";
-import { api_tokens } from "../utils/db.ts";
-
-type TokenData = {
-  token: string;
-  expireAt: Date;
-};
+import { api_tokens, TokenData } from "../utils/db.ts";
 
 export type ContextState = {
   token_data: TokenData;
@@ -38,10 +33,11 @@ const validation = async (req: Request, ctx: FreshContext<ContextState>) => {
     );
   }
 
-  const { token, expireAt, ..._rest } = token_data;
+  const { token, expireAt, lastSeen, ..._rest } = token_data;
   ctx.state.token_data = {
     token,
     expireAt,
+    lastSeen,
   };
 
   return ctx.next();

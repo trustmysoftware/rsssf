@@ -1,11 +1,26 @@
+import { add } from "date-fns";
+// @deno-types="npm:@types/semver@7.5.7"
 import * as semver from "semver";
+import { api_tokens, TokenData } from "./db.ts";
 import { ReleaseItem } from "./feed.ts";
 
 export type SemverSelect = "major" | "minor" | "patch";
 
+type GH_Release = {
+  name: string;
+  draft: boolean;
+  prerelease: boolean;
+  published_at: Date;
+  html_url: string;
+  body: string;
+  author: {
+    gravatar_url: string;
+  };
+};
+
 export const get_release_items = async (
   url: string,
-  api_token: string,
+  api_token_data: TokenData,
   semver_select: SemverSelect,
 ): Promise<ReleaseItem[]> => {
   const urlObj = new URL(url);
@@ -22,33 +37,38 @@ export const get_release_items = async (
     return [];
   }
 
-  const data = await dataJson.json();
+  const data = await dataJson.json() as GH_Release[];
 
-  type GH_Release = any;
+  console.log({ api_token_data });
 
-  let lastSeen: semver.SemVer = semver.parse("0.0.0");
-  //   lastSeen = get_lastSeen(url, api_token);
+  const lastSeen: semver.SemVer = semver.coerce(
+    api_token_data?.lastSeen || "0.0.0",
+  )!;
 
-  const items = data
-    .filter((release: GH_Release) => !(release.draft || release.prerelease))
-    .filter((release: GH_Release) => {
-      switch (semver_select) {
-        case "major":
-          return semver.parse(release.name).major > lastSeen.major;
-        case "minor":
-          return semver.parse(release.name).minor > lastSeen.minor;
-        case "patch":
-          return semver.parse(release.name).patch > lastSeen.patch;
-        default:
-          return false;
-      }
-    })
+  const greater = data
+    .filter((release) => !(release.draft || release.prerelease))
+    .filter(greaterThan(lastSeen, semver_select));
+
+  const latest_new = greater.toSorted((e) =>
+    semver.compare(semver.coerce(e.name)!, lastSeen)
+  ).at(0);
+
+  if (latest_new) {
+    await api_tokens.findOneAndUpdate({ token: api_token_data.token }, {
+      $set: {
+        lastSeen: latest_new.name,
+        expireAt: add(new Date(), { weeks: 2 }),
+      },
+    });
+  }
+
+  const items = greater
     .map((release: GH_Release) => {
       return {
         title: release.name,
         date: new Date(release.published_at),
         url: release.html_url,
-        content: release.body, // <![CDATA[ ' .nl2br($desc_data). ' ]]>
+        content: release.body,
         description: `new major version ${release.name}`,
         image: release.author.gravatar_url,
       } as ReleaseItem;
@@ -56,3 +76,35 @@ export const get_release_items = async (
 
   return items;
 };
+
+const greaterThan =
+  (semver_compare: semver.SemVer, semver_select: SemverSelect) =>
+  (check_element: GH_Release) => {
+    const curr_semver = semver.coerce(check_element.name);
+
+    console.log({ semver_compare, curr_semver });
+
+    if (!curr_semver) {
+      return false;
+    }
+
+    switch (semver_select) {
+      case "major":
+        if (curr_semver.major >= semver_compare.major) {
+          return true;
+        }
+        /* falls through */
+      case "minor":
+        if (curr_semver.minor >= semver_compare.minor) {
+          return true;
+        }
+        /* falls through */
+      case "patch":
+        if (curr_semver.patch >= semver_compare.patch) {
+          return true;
+        }
+        /* falls through */
+      default:
+        return false;
+    }
+  };

@@ -12,7 +12,7 @@ export const handler = defineRoute<ContextState>(
     }
 
     return new Response(
-      await process_feed(api_token_data.token, repo_url, "major"),
+      await process_feed(api_token_data, repo_url, "major"),
     );
   },
 );
