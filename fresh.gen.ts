@@ -10,6 +10,7 @@ import * as $api_generate_token from "./routes/api/generate-token.ts";
 import * as $index from "./routes/index.tsx";
 import * as $major from "./routes/major.tsx";
 import * as $DocumentCounter from "./islands/DocumentCounter.tsx";
+import * as $FeedSelection from "./islands/FeedSelection.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -24,6 +25,7 @@ const manifest = {
   },
   islands: {
     "./islands/DocumentCounter.tsx": $DocumentCounter,
+    "./islands/FeedSelection.tsx": $FeedSelection,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

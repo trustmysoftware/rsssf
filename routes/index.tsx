@@ -1,6 +1,6 @@
 import { useSignal } from "@preact/signals";
-import { FeedSelection } from "../components/FeedSelection.tsx";
 import DocumentCounter from "../islands/DocumentCounter.tsx";
+import { FeedSelection } from "../islands/FeedSelection.tsx";
 
 export default function Home() {
   const count = useSignal(0);

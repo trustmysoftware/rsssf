@@ -17,7 +17,7 @@ export default function DocumentCounter(props: CounterProps) {
 
   return (
     <div class="flex gap-8 py-6">
-      <p class="text-3xl tabular-nums">There are {props.count} tokens</p>
+      <p class="text-3xl tabular-nums">There are {props.count} tokens in use</p>
     </div>
   );
 }

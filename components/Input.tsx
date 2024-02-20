@@ -1,9 +1,19 @@
-import { useId } from "preact/hooks";
+import { Signal } from "@preact/signals";
+import { useEffect, useId, useRef } from "preact/hooks";
 
 export const Input = (
-  { label, readOnly }: { label: string; readOnly?: boolean },
+  { label, readOnly, data }: {
+    label: string;
+    readOnly?: boolean;
+    data: Signal<string>;
+  },
 ) => {
   const id = `input-${useId()}`;
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    data.value = ref.current?.value || "";
+  }, []);
 
   return (
     <div className="w-full flex flex-col">
@@ -15,6 +25,10 @@ export const Input = (
         id={id}
         type="text"
         readOnly={readOnly}
+        onInput={(e) => {
+          data.value = e.currentTarget.value;
+        }}
+        ref={ref}
       />
     </div>
   );
