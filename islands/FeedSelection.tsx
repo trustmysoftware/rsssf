@@ -23,6 +23,11 @@ const createFeedURL = async () => {
 export const FeedSelection = () => {
   return (
     <div className={"w-full flex flex-col gap-3"}>
+      <Input
+        label="Repository URL"
+        description="Currently only github, e.g., https://github.com/trustmysoftware/rsssf"
+        data={repository_url}
+      />
       <Radio
         legend="Semver version"
         options={[{
@@ -38,7 +43,6 @@ export const FeedSelection = () => {
         inline
         data={semver_selection}
       />
-      <Input label="Repository URL" data={repository_url} />
       <Button onClick={createFeedURL}>Get Feed</Button>
       {href.value && <Link href={href.value} />}
     </div>
