@@ -1,23 +1,41 @@
-import type { Signal } from "@preact/signals";
+import { computed, Signal, signal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
+import { Link } from "../components/Link.tsx";
+import ProgressBar from "../components/ProgressBar.tsx";
 
 interface CounterProps {
   count: Signal<number>;
 }
 
-export default function DocumentCounter(props: CounterProps) {
+const progress = signal(0);
+
+export default function DocumentCounter({ count }: CounterProps) {
   useEffect(() => {
     (async () => {
-      const document_count = await fetch("/api/document-count");
-      props.count.value = parseInt(
-        await document_count.text(),
-      );
+      const token_count = await (await fetch("/api/token-count")).json();
+
+      count.value = token_count.api_tokens_count;
+      progress.value = count.value / token_count.max_api_tokens;
     })();
   });
 
   return (
-    <div class="flex gap-8 py-6">
-      <p class="text-3xl tabular-nums">There are {props.count} tokens in use</p>
+    <div class="flex-col gap-8 py-6 w-[56ch]">
+      <p class="flex-initial text-3xl tabular-nums text-center">
+        There are {count} tokens in use
+      </p>
+      <ProgressBar
+        completed={progress.value}
+        bgColor="green"
+      />
+      <p class="flex-initial">
+        when this reaches 100%{" "}
+        it is no longer possible to generate new tokens. You can wait a while
+        and hope some of the current ones expire, or you can{" "}
+        <Link href="https://github.com/trustmysoftware/rsssf">
+          host your own RSSSF instance
+        </Link>
+      </p>
     </div>
   );
 }

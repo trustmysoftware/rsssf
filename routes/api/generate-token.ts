@@ -2,12 +2,12 @@ import { FreshContext } from "$fresh/server.ts";
 import { add } from "date-fns";
 import { api_tokens } from "../../utils/db.ts";
 
-export const API_MAX_TOKENS = 100;
+export const MAX_API_TOKENS = 100;
 
 export const handler = async (_req: Request, _ctx: FreshContext) => {
   const api_tokens_count = await api_tokens.countDocuments({});
 
-  if (api_tokens_count >= API_MAX_TOKENS) {
+  if (api_tokens_count >= MAX_API_TOKENS) {
     new Response(
       `
     Maximum number of free keys in circulation, check again

@@ -5,8 +5,8 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.ts";
-import * as $api_document_count from "./routes/api/document-count.ts";
 import * as $api_generate_token from "./routes/api/generate-token.ts";
+import * as $api_token_count from "./routes/api/token-count.ts";
 import * as $index from "./routes/index.tsx";
 import * as $major from "./routes/major.tsx";
 import * as $minor from "./routes/minor.tsx";
@@ -20,8 +20,8 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.ts": $_middleware,
-    "./routes/api/document-count.ts": $api_document_count,
     "./routes/api/generate-token.ts": $api_generate_token,
+    "./routes/api/token-count.ts": $api_token_count,
     "./routes/index.tsx": $index,
     "./routes/major.tsx": $major,
     "./routes/minor.tsx": $minor,
