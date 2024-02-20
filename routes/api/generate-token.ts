@@ -2,7 +2,7 @@ import { FreshContext } from "$fresh/server.ts";
 import { add } from "date-fns";
 import { api_tokens } from "../../utils/db.ts";
 
-export const API_MAX_TOKENS = 10;
+export const API_MAX_TOKENS = 100;
 
 export const handler = async (_req: Request, _ctx: FreshContext) => {
   const api_tokens_count = await api_tokens.countDocuments({});
