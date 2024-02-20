@@ -2,6 +2,7 @@ import { computed, Signal, signal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
 import { Link } from "../components/Link.tsx";
 import ProgressBar from "../components/ProgressBar.tsx";
+import { InlineCode } from "../components/InlineCode.tsx";
 
 interface CounterProps {
   count: Signal<number>;
@@ -40,6 +41,21 @@ export default function DocumentCounter({ count }: CounterProps) {
           host your own RSSSF instance
         </Link>
       </p>
+      <details>
+        <summary class="my-4 mt-20">What does RSSSF do?</summary>
+        <ul>
+          <li class="list-disc m-2 mx-8">
+            Creates an atom/RSS feed for software hosted on Github.
+          </li>
+          <li class="list-disc m-2 mx-8">
+            Filters out <InlineCode>prerelease</InlineCode> and{" "}
+            <InlineCode>draft</InlineCode> from feeds
+          </li>
+          <li class="list-disc m-2 mx-8">
+            Filters out only the semver that matches the one you select for
+          </li>
+        </ul>
+      </details>
     </div>
   );
 }
