@@ -12,7 +12,7 @@ export const handler = defineRoute<ContextState>(
     }
 
     return new Response(
-      await process_feed(api_token_data, repo_url, "major"),
+      await process_feed(api_token_data, repo_url, "minor"),
       {
         headers: {
           "content-type": "application/atom+xml; charset=utf-8",

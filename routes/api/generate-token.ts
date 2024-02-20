@@ -7,8 +7,6 @@ export const API_MAX_TOKENS = 10;
 export const handler = async (_req: Request, _ctx: FreshContext) => {
   const api_tokens_count = await api_tokens.countDocuments({});
 
-  console.log({ api_tokens_count });
-
   if (api_tokens_count >= API_MAX_TOKENS) {
     new Response(
       `

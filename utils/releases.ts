@@ -14,7 +14,8 @@ type GH_Release = {
   html_url: string;
   body: string;
   author: {
-    gravatar_url: string;
+    avatar_url: string;
+    html_url: string;
   };
 };
 
@@ -38,8 +39,6 @@ export const get_release_items = async (
   }
 
   const data = await dataJson.json() as GH_Release[];
-
-  console.log({ api_token_data });
 
   const lastSeen: semver.SemVer = semver.coerce(
     api_token_data?.lastSeen || "0.0.0",
@@ -70,7 +69,10 @@ export const get_release_items = async (
         url: release.html_url,
         content: release.body,
         description: `new major version ${release.name}`,
-        image: release.author.gravatar_url,
+        author: {
+          avatar_url: release.author.avatar_url,
+          html_url: release.author.html_url,
+        },
       } as ReleaseItem;
     });
 
@@ -81,8 +83,6 @@ const greaterThan =
   (semver_compare: semver.SemVer, semver_select: SemverSelect) =>
   (check_element: GH_Release) => {
     const curr_semver = semver.coerce(check_element.name);
-
-    console.log({ semver_compare, curr_semver });
 
     if (!curr_semver) {
       return false;

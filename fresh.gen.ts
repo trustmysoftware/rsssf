@@ -9,6 +9,8 @@ import * as $api_document_count from "./routes/api/document-count.ts";
 import * as $api_generate_token from "./routes/api/generate-token.ts";
 import * as $index from "./routes/index.tsx";
 import * as $major from "./routes/major.tsx";
+import * as $minor from "./routes/minor.tsx";
+import * as $patch from "./routes/patch.tsx";
 import * as $DocumentCounter from "./islands/DocumentCounter.tsx";
 import * as $FeedSelection from "./islands/FeedSelection.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -22,6 +24,8 @@ const manifest = {
     "./routes/api/generate-token.ts": $api_generate_token,
     "./routes/index.tsx": $index,
     "./routes/major.tsx": $major,
+    "./routes/minor.tsx": $minor,
+    "./routes/patch.tsx": $patch,
   },
   islands: {
     "./islands/DocumentCounter.tsx": $DocumentCounter,
