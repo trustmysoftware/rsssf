@@ -25,7 +25,9 @@
     "date-fns": "npm:date-fns@3.3.1",
     "mongodb": "npm:mongodb@6.3.0",
     "feed": "npm:feed@4.2.2",
-    "semver": "https://deno.land/std@0.216.0/semver/mod.ts"
+    "semver": "https://deno.land/std@0.216.0/semver/mod.ts",
+    "tailwindcss": "npm:tailwindcss@3.4.1",
+    "cl": "npm:clsx@2.1.0"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
