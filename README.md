@@ -9,6 +9,9 @@ in project root.
 MONGODB_URL=MY_MONGODB_CONNECTION_STRING
 ```
 
+Create a database called `rsssf` with a collection called `api-tokens` on the
+db.
+
 Then you can build & run via docker
 
 ```shell
