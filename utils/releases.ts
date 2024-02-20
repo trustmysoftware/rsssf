@@ -56,6 +56,7 @@ export const get_release_items = async (
     await api_tokens.findOneAndUpdate({ token: api_token_data.token }, {
       $set: {
         lastSeen: latest_new.name,
+        repo: urlObj.pathname,
         expireAt: add(new Date(), { weeks: 2 }),
       },
     });

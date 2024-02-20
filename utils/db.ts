@@ -4,6 +4,7 @@ export type TokenData = {
   token: string;
   expireAt: Date;
   lastSeen?: string;
+  repo?: string;
 };
 
 export const get_mongo_collection = async () => {

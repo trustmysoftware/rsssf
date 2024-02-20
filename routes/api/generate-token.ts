@@ -12,7 +12,7 @@ export const handler = async (_req: Request, _ctx: FreshContext) => {
       `
     Maximum number of free keys in circulation, check again
     later to see if some of them expire or host your own RSSSF server
-    RSS_FEED_TO_CHECK_IF_FREE_KEYS_ARE_AVAILABLE
+    <INSERT RSS_FEED_TO_CHECK_IF_FREE_KEYS_ARE_AVAILABLE>
     `,
       { status: 503 },
     );
