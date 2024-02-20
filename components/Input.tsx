@@ -2,10 +2,16 @@ import { Signal } from "@preact/signals";
 import { useEffect, useId, useRef } from "preact/hooks";
 
 export const Input = (
-  { label, readOnly, data }: {
+  {
+    label,
+    readOnly,
+    data,
+    description,
+  }: {
     label: string;
-    readOnly?: boolean;
     data: Signal<string>;
+    readOnly?: boolean;
+    description?: string;
   },
 ) => {
   const id = `input-${useId()}`;
@@ -20,8 +26,13 @@ export const Input = (
       <label className="flex-initial block font-bold" for={id}>
         {label}
       </label>
+      {description && (
+        <label for={id}>
+          {description}
+        </label>
+      )}
       <input
-        className="flex-initial p-1"
+        className="flex-initial p-1 my-2"
         id={id}
         type="text"
         readOnly={readOnly}
