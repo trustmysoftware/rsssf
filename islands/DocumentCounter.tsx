@@ -45,14 +45,18 @@ export default function DocumentCounter({ count }: CounterProps) {
         <summary class="my-4 mt-20">What does RSSSF do?</summary>
         <ul>
           <li class="list-disc m-2 mx-8">
-            Creates an atom/RSS feed for software hosted on Github.
+            Creates an atom/RSS feed for the releases of software hosted on
+            Github.
           </li>
           <li class="list-disc m-2 mx-8">
             Filters out <InlineCode>prerelease</InlineCode> and{" "}
-            <InlineCode>draft</InlineCode> from feeds
+            <InlineCode>draft</InlineCode> from feeds.
           </li>
           <li class="list-disc m-2 mx-8">
-            Filters out only the semver that matches the one you select for
+            Filters out the releases whose semver doesn't match the one you
+            select for. So if you select <InlineCode>major</InlineCode>{" "}
+            you should not get <InlineCode>minor</InlineCode> or{" "}
+            <InlineCode>patch</InlineCode> releases in your feed.
           </li>
         </ul>
       </details>

@@ -11,7 +11,7 @@ export default function Home() {
           <FeedSelection />
         </div>
       </div>
-      <div class="flex justify-around">
+      <div class="flex justify-around px-4 py-8">
         <DocumentCounter count={count} />
       </div>
     </>
