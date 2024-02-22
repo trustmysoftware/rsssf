@@ -90,8 +90,8 @@ const greaterThan =
     }
 
     switch (semver_select) {
-      case "major":
-        if (curr_semver.major >= semver_compare.major) {
+      case "patch":
+        if (curr_semver.patch >= semver_compare.patch) {
           return true;
         }
         /* falls through */
@@ -100,8 +100,8 @@ const greaterThan =
           return true;
         }
         /* falls through */
-      case "patch":
-        if (curr_semver.patch >= semver_compare.patch) {
+      case "major":
+        if (curr_semver.major >= semver_compare.major) {
           return true;
         }
         /* falls through */
