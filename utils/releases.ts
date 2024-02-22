@@ -44,18 +44,32 @@ export const get_release_items = async (
     api_token_data?.lastSeen || "0.0.0",
   )!;
 
-  const greater = data
-    .filter((release) => !(release.draft || release.prerelease))
-    .filter(greaterThan(lastSeen, semver_select));
+  const only_actual = data
+    .filter((release) => !(release.draft || release.prerelease));
 
-  const latest_new = greater.toSorted((e) =>
-    semver.compare(semver.coerce(e.name)!, lastSeen)
-  ).at(0);
+  const greater = only_actual.filter((r) =>
+    semver.gte(semver.coerce(r.name)!, lastSeen)
+  );
 
-  if (latest_new) {
+  const greater_sorted = greater.toSorted((e1, e2) =>
+    semver.rcompare(semver.coerce(e1.name)!, semver.coerce(e2.name)!)
+  );
+  const greatest = greater_sorted.at(0);
+
+  console.log({
+    lastSeen: lastSeen.toString(),
+    only_actual: only_actual.map((e) => semver.coerce(e.name)?.toString()),
+    greater: greater.map((e) => semver.coerce(e.name)?.toString()),
+    greater_sorted: greater_sorted.map((e) =>
+      semver.coerce(e.name)?.toString()
+    ),
+    greatest: greatest?.name,
+  });
+
+  if (greatest) {
     await api_tokens.findOneAndUpdate({ token: api_token_data.token }, {
       $set: {
-        lastSeen: latest_new.name,
+        lastSeen: semver.coerce(greatest.name)?.toString(),
         repo: urlObj.pathname,
         expireAt: add(new Date(), { weeks: 2 }),
       },
@@ -69,7 +83,8 @@ export const get_release_items = async (
         date: new Date(release.published_at),
         url: release.html_url,
         content: release.body,
-        description: `new major version ${release.name}`,
+        description:
+          `new ${semver_select} version (or greater) ${release.name}`,
         author: {
           avatar_url: release.author.avatar_url,
           html_url: release.author.html_url,
@@ -81,7 +96,7 @@ export const get_release_items = async (
 };
 
 const greaterThan =
-  (semver_compare: semver.SemVer, semver_select: SemverSelect) =>
+  (old_semver: semver.SemVer, semver_select: SemverSelect) =>
   (check_element: GH_Release) => {
     const curr_semver = semver.coerce(check_element.name);
 
@@ -91,17 +106,17 @@ const greaterThan =
 
     switch (semver_select) {
       case "patch":
-        if (curr_semver.patch >= semver_compare.patch) {
+        if (curr_semver.patch >= old_semver.patch) {
           return true;
         }
         /* falls through */
       case "minor":
-        if (curr_semver.minor >= semver_compare.minor) {
+        if (curr_semver.minor >= old_semver.minor) {
           return true;
         }
         /* falls through */
       case "major":
-        if (curr_semver.major >= semver_compare.major) {
+        if (curr_semver.major >= old_semver.major) {
           return true;
         }
         /* falls through */

@@ -35,8 +35,8 @@ export default function DocumentCounter({ count }: CounterProps) {
       />
       <p class="flex-initial">
         when this reaches 100%{" "}
-        it is no longer possible to generate new tokens. You can wait a while
-        and hope some of the current ones expire, or you can{" "}
+        it is no longer possible to generate new feeds. You can wait a while and
+        hope some of the current ones expire, or you can{" "}
         <Link href="https://github.com/trustmysoftware/rsssf">
           host your own RSSSF instance
         </Link>
