@@ -1,5 +1,6 @@
 import { Feed } from "feed";
-import { get_release_items, SemverSelect } from "./releases.ts";
+import { SemverSelect } from "./releases.ts";
+import { get_release_items } from "./get_release_items.ts";
 import { TokenData } from "./db.ts";
 
 export type ReleaseItem = {

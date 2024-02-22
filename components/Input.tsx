@@ -32,7 +32,7 @@ export const Input = (
         </label>
       )}
       <input
-        className="flex-initial p-1 my-2"
+        className="flex-initial p-1 my-2 rounded-sm"
         id={id}
         type="text"
         readOnly={readOnly}
