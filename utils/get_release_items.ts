@@ -2,7 +2,12 @@ import { add } from "date-fns";
 import * as semver from "semver";
 import { api_tokens, TokenData } from "./db.ts";
 import { ReleaseItem } from "./feed.ts";
-import { GH_Release, SemverSelect } from "./releases.ts";
+import {
+  filterReleases,
+  GH_Release,
+  SemverSelect,
+  transformToFeed,
+} from "./releases.ts";
 
 export const get_release_items = async (
   url: string,
@@ -29,18 +34,9 @@ export const get_release_items = async (
     api_token_data?.lastSeen || "0.0.0",
   )!;
 
-  const only_actual = data
-    .filter((release) => !(release.draft || release.prerelease));
+  const filtered = filterReleases(data, lastSeen, semver_select);
 
-  const greater = only_actual.filter((r) =>
-    semver.gte(semver.coerce(r.name)!, lastSeen)
-  );
-
-  const greater_sorted = greater.toSorted((e1, e2) =>
-    semver.rcompare(semver.coerce(e1.name)!, semver.coerce(e2.name)!)
-  );
-  const greatest = greater_sorted.at(0);
-
+  const greatest = filtered.at(0);
   if (greatest) {
     await api_tokens.findOneAndUpdate({ token: api_token_data.token }, {
       $set: {
@@ -51,21 +47,7 @@ export const get_release_items = async (
     });
   }
 
-  const items = greater
-    .map((release: GH_Release) => {
-      return {
-        title: release.name,
-        date: new Date(release.published_at),
-        url: release.html_url,
-        content: release.body,
-        description:
-          `new ${semver_select} version (or greater) ${release.name}`,
-        author: {
-          avatar_url: release.author.avatar_url,
-          html_url: release.author.html_url,
-        },
-      } as ReleaseItem;
-    });
+  const feed_items = transformToFeed(filtered, semver_select);
 
-  return items;
+  return feed_items;
 };
