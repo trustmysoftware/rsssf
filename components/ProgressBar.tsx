@@ -16,8 +16,8 @@ const ProgressBar = ({ bgColor, completed }: Props) => {
       <div class="rounded-full text-right h-full relative" style={fillerStyles}>
         <span
           class={clsx("font-bold absolute", {
-            ["text-black right-[-2.5rem]"]: completed < 10,
-            ["text-white right-1"]: completed >= 10,
+            ["text-black right-[-2.5rem]"]: completed < 50,
+            ["text-white right-1"]: completed >= 50,
           })}
         >
           {`${completed}%`}

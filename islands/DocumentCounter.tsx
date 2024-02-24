@@ -36,8 +36,9 @@ export default function DocumentCounter({ count }: CounterProps) {
       />
       <p class="flex-initial">
         when this reaches 100%{" "}
-        it is no longer possible to generate new feeds. You can wait a while and
-        hope some of the current ones expire, or you can{" "}
+        the instance will no longer generate new feeds. You can wait a while and
+        hope some of the current ones{" "}
+        <Link href="#expiry">expire</Link>, or you can{" "}
         <Link href="https://github.com/trustmysoftware/rsssf">
           host your own RSSSF instance
         </Link>.
@@ -52,20 +53,35 @@ export default function DocumentCounter({ count }: CounterProps) {
             </>,
             <>
               Filters out <InlineCode>prerelease</InlineCode> and{" "}
-              <InlineCode>draft</InlineCode> from feeds.
+              <InlineCode>draft</InlineCode> releases from feeds.
             </>,
             <>
-              Filters out the releases whose semver doesn't match the one you
-              select for. So if you select <InlineCode>major</InlineCode>{" "}
-              you should not get <InlineCode>minor</InlineCode> or{" "}
-              <InlineCode>patch</InlineCode> releases in your feed.
+              Filters out the releases whose semver are lower in rank than the
+              one you select for. So if you select{" "}
+              <InlineCode>minor</InlineCode> you should not get{" "}
+              <InlineCode>patch</InlineCode> releases, but you <em>will</em> get
+              {" "}
+              <InlineCode>minor</InlineCode> and <InlineCode>major</InlineCode>
+              {" "}
+              ones.
             </>,
           ]}
         />
       </Details>
-      <Details summary="FAQ">
+      <Details summary="I have questions...">
         <>
-          <h3 class="font-bold">
+          <h3 id="expiry" class="font-bold mt-6">
+            What is meant by expiry?
+          </h3>
+          <p class="ml-2 mt-2">
+            Feeds expire. This is to free up <em>unused</em>{" "}
+            feeds so that they can go back into the pool of available feeds. The
+            expiry time should currently set to a period much longer than the
+            regular polling frequency of most RSS readers. Whenever the feed is
+            fetched, the <InlineCode>expireAt</InlineCode>{" "}
+            timestamp associated with that feed is increased.
+          </p>
+          <h3 class="font-bold mt-6">
             I have multiple devices, how do I best utilize this service?
           </h3>
           <p class="ml-2 mt-2">
