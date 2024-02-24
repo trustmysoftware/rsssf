@@ -14,6 +14,9 @@ export const get_release_items = async (
   api_token_data: TokenData,
   semver_select: SemverSelect,
 ): Promise<ReleaseItem[]> => {
+  const version = Deno.env.get("DENO_DEPLOYMENT_ID") || "?";
+  const code_url = "https://github.com/trustmysoftware/rsssf";
+
   const urlObj = new URL(url);
   const github_api_url =
     `https://api.github.com/repos${urlObj.pathname}/releases?per_page=100`;
@@ -21,6 +24,7 @@ export const get_release_items = async (
     headers: {
       Accept: "application/vnd.github+json",
       ["X-GitHub-Api-Version"]: "2022-11-28",
+      ["User-Agent"]: `RSSSF/${version} ${code_url}`,
     },
   });
 

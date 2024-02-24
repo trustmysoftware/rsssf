@@ -43,4 +43,15 @@ const validation = async (req: Request, ctx: FreshContext<ContextState>) => {
   return ctx.next();
 };
 
-export const handler = [validation];
+const add_version_header = async (
+  _req: Request,
+  ctx: FreshContext<ContextState>,
+) => {
+  const version = Deno.env.get("DENO_DEPLOYMENT_ID") || "?";
+
+  const resp = await ctx.next();
+  resp.headers.set("Server", `RSSSF/${version}`);
+  return resp;
+};
+
+export const handler = [validation, add_version_header];
