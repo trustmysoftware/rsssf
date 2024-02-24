@@ -50,7 +50,7 @@ const add_version_header = async (
   const version = Deno.env.get("DENO_DEPLOYMENT_ID") || "?";
 
   const resp = await ctx.next();
-  resp.headers.set("Server", `RSSSF/${version}`);
+  resp.headers.set("x-info", `RSSSF/${version}`);
   return resp;
 };
 
