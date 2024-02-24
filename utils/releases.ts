@@ -17,13 +17,17 @@ export type GH_Release = {
   };
 };
 
-const greaterThan =
+const greaterThanOrExactlyEqual =
   (old_semver: semver.SemVer, semver_select: SemverSelect) =>
   (check_element: GH_Release) => {
     const curr_semver = semver.coerce(check_element.name);
 
     if (!curr_semver) {
       return false;
+    }
+
+    if (semver.eq(curr_semver, old_semver)) {
+      return true;
     }
 
     switch (semver_select) {
@@ -55,9 +59,11 @@ export const filterReleases = (
   const only_actual = releases
     .filter((release) => !(release.draft || release.prerelease));
 
-  const greater = only_actual.filter((r) =>
-    semver.gte(semver.coerce(r.name)!, lastSeen)
-  );
+  const greater = only_actual
+    .filter((r) => semver.gte(semver.coerce(r.name)!, lastSeen))
+    .filter(
+      greaterThanOrExactlyEqual(lastSeen, semver_select),
+    );
 
   const greater_sorted = greater.toSorted((e1, e2) =>
     semver.rcompare(semver.coerce(e1.name)!, semver.coerce(e2.name)!)

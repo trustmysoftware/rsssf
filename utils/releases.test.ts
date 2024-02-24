@@ -106,7 +106,7 @@ Deno.test("returns greater semvers for minor", () => {
   ];
 
   const lastSeen: semver.SemVer = semver.coerce("1.1.1")!;
-  const semver_select: SemverSelect = "patch";
+  const semver_select: SemverSelect = "minor";
 
   const filtered = filterReleases(releases, lastSeen, semver_select);
 
@@ -133,7 +133,7 @@ Deno.test("returns greater semvers for major", () => {
   ];
 
   const lastSeen: semver.SemVer = semver.coerce("1.1.1")!;
-  const semver_select: SemverSelect = "patch";
+  const semver_select: SemverSelect = "major";
 
   const filtered = filterReleases(releases, lastSeen, semver_select);
 

@@ -10,6 +10,16 @@
       "runtimeExecutable": "deno",
       "runtimeArgs": ["run", "--inspect-wait", "--allow-all"],
       "attachSimplePort": 9229
+    },
+    {
+      "request": "launch",
+      "name": "Test",
+      "type": "node",
+      "program": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["test", "--inspect-wait", "--allow-all"],
+      "attachSimplePort": 9229
     }
   ]
 }
