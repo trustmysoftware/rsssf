@@ -28,23 +28,6 @@ export default function DocumentCounter({ count }: CounterProps) {
 
   return (
     <div class="flex-col gap-8 py-6 w-[56ch]">
-      <p class="flex-initial text-3xl tabular-nums text-center">
-        This instance is serving {count} feeds!
-      </p>
-      <ProgressBar
-        completed={progress.value}
-        bgColor="green"
-      />
-      <p class="flex-initial">
-        When this reaches 100%{" "}
-        the instance will no longer generate new feeds. You can wait a while and
-        hope some of the current ones{" "}
-        <Link href="#expiry">expire</Link>, or you can{" "}
-        <Link href="https://github.com/trustmysoftware/rsssf">
-          host your own RSSSF instance
-        </Link>.
-      </p>
-      <Spacer />
       <Details summary="What does RSSSF do?">
         <List
           items={[
@@ -117,6 +100,25 @@ export default function DocumentCounter({ count }: CounterProps) {
           ]}
         />
       </Details>
+      <Spacer />
+      <div class="border border-gray-200 rounded-lg p-6">
+        <p class="flex-initial text-3xl tabular-nums text-center mb-6">
+          This instance is serving {count} feeds!
+        </p>
+        <ProgressBar
+          completed={progress.value}
+          bgColor="green"
+        />
+        <p class="flex-initial mt-4">
+          When this reaches 100%{" "}
+          the instance will no longer generate new feeds. You can wait a while
+          and hope some of the current ones{" "}
+          <Link href="#expiry">expire</Link>, or you can{" "}
+          <Link href="https://github.com/trustmysoftware/rsssf">
+            host your own RSSSF instance
+          </Link>.
+        </p>
+      </div>
     </div>
   );
 }

@@ -22,7 +22,8 @@ docker build -t rsssf .
 docker run -it --rm -p 8000:8000 rsssf
 ```
 
-alternatively, if you use fly.io, change the app name in the file `fly.toml`
+alternatively, if you use fly.io, change the app name in the file `fly.toml` and
+run the following two commands.
 
 ```
 fly secrets import < .env

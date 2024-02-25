@@ -5,7 +5,7 @@ export const Details = (
 ) => {
   return (
     <details>
-      <summary class="my-4 mt-8">{summary}</summary>
+      <summary class="my-4 mt-8 font-bold">{summary}</summary>
       {children}
     </details>
   );
