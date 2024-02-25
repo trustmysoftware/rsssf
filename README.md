@@ -10,7 +10,10 @@ MONGODB_URL=MY_MONGODB_CONNECTION_STRING
 ```
 
 Create a database called `rsssf` with a collection called `api-tokens` on the
-db.
+db. Optionally,
+[create a TTL index](https://www.mongodb.com/docs/manual/core/index-ttl/) in
+this collection with `expireAfterSeconds: 0` on the field `expireAt`. This lets
+you "auto purge" unused tokens to free them up for later use.
 
 Then you can build & run via docker
 
