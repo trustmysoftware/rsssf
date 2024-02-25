@@ -145,3 +145,30 @@ Deno.test("returns greater semvers for major", () => {
     "1.1.1",
   ]);
 });
+
+Deno.test("when empty. e.g only prerelease/draft output single placeholder release", () => {
+  const releases = [
+    generate_release({ name: "1.0-alpha2", prerelease: true }),
+    generate_release({ name: "0.99.9", draft: true }),
+    generate_release({ name: "0.0.1", draft: true, prerelease: true }),
+  ];
+
+  const lastSeen: semver.SemVer = semver.coerce("0.0.0")!;
+  const semver_select: SemverSelect = "major";
+
+  const filtered = filterReleases(releases, lastSeen, semver_select);
+
+  const names = filtered.map((r) => {
+    return { name: r.name, body: r.body };
+  });
+
+  assertEquals(names, [{
+    name: "0.0.0",
+    body: `
+    # placeholder release
+    There are either no releases yet or all the releases are marked as draft or prerelease
+    This is a placeholder release that will go away once the first non-draft, non-prerelease
+    release exists that matches your semver filter.
+    `,
+  }]);
+});

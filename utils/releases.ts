@@ -17,6 +17,24 @@ export type GH_Release = {
   };
 };
 
+const NO_RELEASES_PLACEHOLDER: GH_Release[] = [{
+  name: "0.0.0",
+  body: `
+    # placeholder release
+    There are either no releases yet or all the releases are marked as draft or prerelease
+    This is a placeholder release that will go away once the first non-draft, non-prerelease
+    release exists that matches your semver filter.
+    `,
+  author: {
+    avatar_url: "placeholder",
+    html_url: "placeholder",
+  },
+  draft: false,
+  html_url: "placeholder",
+  prerelease: false,
+  published_at: new Date("1960-01-01"),
+}];
+
 const greaterThanOrExactlyEqual =
   (old_semver: semver.SemVer, semver_select: SemverSelect) =>
   (check_element: GH_Release) => {
@@ -64,6 +82,10 @@ export const filterReleases = (
     .filter(
       greaterThanOrExactlyEqual(lastSeen, semver_select),
     );
+
+  if (!greater.length) {
+    return NO_RELEASES_PLACEHOLDER;
+  }
 
   const greater_sorted = greater.toSorted((e1, e2) =>
     semver.rcompare(semver.coerce(e1.name)!, semver.coerce(e2.name)!)
