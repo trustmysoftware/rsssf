@@ -5,7 +5,9 @@ export const Details = (
 ) => {
   return (
     <details>
-      <summary class="my-4 mt-8 font-bold">{summary}</summary>
+      <summary class="my-4 mt-8 font-bold hover:cursor-pointer w-fit">
+        {summary}
+      </summary>
       {children}
     </details>
   );
