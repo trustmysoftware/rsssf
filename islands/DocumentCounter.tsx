@@ -6,6 +6,7 @@ import { InlineCode } from "../components/InlineCode.tsx";
 import { Details } from "../components/Details.tsx";
 import { List } from "../components/List.tsx";
 import { Spacer } from "../components/Spacer.tsx";
+import { QAList } from "../components/QAList.tsx";
 
 interface CounterProps {
   count: Signal<number>;
@@ -35,7 +36,7 @@ export default function DocumentCounter({ count }: CounterProps) {
         bgColor="green"
       />
       <p class="flex-initial">
-        when this reaches 100%{" "}
+        When this reaches 100%{" "}
         the instance will no longer generate new feeds. You can wait a while and
         hope some of the current ones{" "}
         <Link href="#expiry">expire</Link>, or you can{" "}
@@ -69,30 +70,52 @@ export default function DocumentCounter({ count }: CounterProps) {
         />
       </Details>
       <Details summary="I have questions...">
-        <>
-          <h3 id="expiry" class="font-bold mt-6">
-            What is meant by expiry?
-          </h3>
-          <p class="ml-2 mt-2">
-            Feeds expire. This is to free up <em>unused</em>{" "}
-            feeds so that they can go back into the pool of available feeds. The
-            expiry time should currently set to a period much longer than the
-            regular polling frequency of most RSS readers. Whenever the feed is
-            fetched, the <InlineCode>expireAt</InlineCode>{" "}
-            timestamp associated with that feed is increased.
-          </p>
-          <h3 class="font-bold mt-6">
-            I have multiple devices, how do I best utilize this service?
-          </h3>
-          <p class="ml-2 mt-2">
-            It's recommended to use something like{" "}
-            <Link href="https://www.freshrss.org/">FreshRSS</Link>{" "}
-            as a "middleman" to aggregate all your feeds in one place before it
-            gets distributed out to all your devices, this way you can manage
-            them in a single place, and you'll only "use" a single feed on this
-            service as well (per software & semver pairing). Win-win!
-          </p>
-        </>
+        <QAList
+          items={[
+            {
+              q: "What is meant by expiry?",
+              a: (
+                <>
+                  Feeds expire. This is to free up <em>unused</em>{" "}
+                  feeds so that they can go back into the pool of available
+                  feeds. The expiry time should currently be set to a period
+                  much longer than the regular polling frequency of most RSS
+                  readers. Whenever the feed is fetched, the{" "}
+                  <InlineCode>expireAt</InlineCode>{" "}
+                  timestamp associated with that feed is increased.
+                </>
+              ),
+            },
+            {
+              q: "I have multiple devices, do I create a bunch of identical feeds?",
+              a: (
+                <>
+                  It's recommended to use something like{" "}
+                  <Link href="https://www.freshrss.org/">FreshRSS</Link>{" "}
+                  as a "middleman" to aggregate all your feeds in one place
+                  before it gets distributed out to all your devices, this way
+                  you can manage them in a single place, and you'll only "use" a
+                  single feed on this service as well (per software & semver
+                  pairing). Win-win!
+                </>
+              ),
+            },
+            {
+              q: "I have other questions...",
+              a: (
+                <>
+                  <Link href="https://github.com/trustmysoftware/rsssf/issues/new/choose">
+                    Create an issue
+                  </Link>{" "}
+                  or{" "}
+                  <Link href="https://github.com/trustmysoftware/rsssf/discussions/new?category=general">
+                    Start a discussion
+                  </Link>.
+                </>
+              ),
+            },
+          ]}
+        />
       </Details>
     </div>
   );
