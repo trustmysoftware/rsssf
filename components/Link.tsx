@@ -1,12 +1,13 @@
 import clsx from "cl";
 import { openDetailsIfAnchorHidden } from "../clientside_utils/openDetails.ts";
 import { JSX } from "preact/jsx-runtime";
+import { twMerge } from "twMerge";
 
 type Props = {
   href: string;
   children?: string;
-  class: string;
-  icon: JSX.Element;
+  class?: string;
+  icon?: JSX.Element;
 };
 
 export const Link = (
@@ -14,10 +15,10 @@ export const Link = (
 ) => {
   return (
     <a
-      class={clsx(
+      class={twMerge(clsx(
         "text-blue-500 visited:text-purple-500 hover:underline",
         _class,
-      )}
+      ))}
       onClick={openDetailsIfAnchorHidden}
       href={href}
     >

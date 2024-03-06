@@ -27,7 +27,8 @@
     "feed": "npm:feed@4.2.2",
     "semver": "npm:semver@7.6.0",
     "tailwindcss": "npm:tailwindcss@3.4.1",
-    "cl": "npm:clsx@2.1.0"
+    "cl": "npm:clsx@2.1.0",
+    "twMerge": "npm:tailwind-merge"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

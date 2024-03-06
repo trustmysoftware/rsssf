@@ -83,7 +83,7 @@ export const filterReleases = (
       greaterThanOrExactlyEqual(lastSeen, semver_select),
     );
 
-  if (!greater.length) {
+  if (greater.length === 0) {
     return NO_RELEASES_PLACEHOLDER;
   }
 

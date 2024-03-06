@@ -172,3 +172,25 @@ Deno.test("when empty. e.g only prerelease/draft output single placeholder relea
     `,
   }]);
 });
+
+Deno.test("when nothing has happened since last time, return only the last seen version", () => {
+  const releases = [
+    generate_release({ name: "1.0.1" }),
+    generate_release({ name: "1.0.2" }),
+    generate_release({ name: "1.0.3" }),
+    generate_release({ name: "1.0.4" }),
+  ];
+
+  const lastSeen: semver.SemVer = semver.coerce("1.0.4")!;
+  const semver_select: SemverSelect = "major";
+
+  const filtered = filterReleases(releases, lastSeen, semver_select);
+
+  const names = filtered.map((r) => {
+    return { name: r.name };
+  });
+
+  assertEquals(names, [{
+    name: "1.0.4",
+  }]);
+});

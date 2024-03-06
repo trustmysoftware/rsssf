@@ -60,11 +60,14 @@ export const process_feed = async (
   semver_select: SemverSelect,
 ) => {
   const repo_name = repo_url.split("/").pop()!;
-  const releases = await get_release_items(
+  let releases = await get_release_items(
     repo_url,
     api_token_data,
     semver_select,
   );
+  if (releases === null) {
+    releases = []; // skipping the 0.0.0 placeholder this way
+  }
   const feed = await generate_feed(repo_url, repo_name, releases);
   return feed;
 };

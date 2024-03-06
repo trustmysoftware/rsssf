@@ -13,7 +13,7 @@ export const get_release_items = async (
   url: string,
   api_token_data: TokenData,
   semver_select: SemverSelect,
-): Promise<ReleaseItem[]> => {
+): Promise<ReleaseItem[] | null> => {
   const version = Deno.env.get("DENO_DEPLOYMENT_ID") || "?";
   const code_url = "https://github.com/trustmysoftware/rsssf";
 
@@ -29,7 +29,8 @@ export const get_release_items = async (
   });
 
   if (!dataJson.ok) {
-    return [];
+    console.log(`bad API response from GH: ${dataJson}`);
+    return null;
   }
 
   const data = await dataJson.json() as GH_Release[];
