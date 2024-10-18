@@ -21,7 +21,7 @@ export const handler = async (_req: Request, _ctx: FreshContext) => {
   const uuid = crypto.randomUUID();
 
   const insert_result = await api_tokens.insertOne({
-    expireAt: add(new Date(), { seconds: 60 }),
+    expireAt: add(new Date(), { seconds: 120 }),
     token: uuid,
   });
 

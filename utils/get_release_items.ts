@@ -18,8 +18,7 @@ export const get_release_items = async (
   const code_url = "https://github.com/trustmysoftware/rsssf";
 
   const urlObj = new URL(url);
-  const github_api_url =
-    `https://api.github.com/repos${urlObj.pathname}/releases?per_page=100`;
+  const github_api_url = `https://api.github.com/repos${urlObj.pathname}/releases?per_page=100`;
   const dataJson = await fetch(github_api_url, {
     headers: {
       Accept: "application/vnd.github+json",
@@ -33,7 +32,7 @@ export const get_release_items = async (
     return null;
   }
 
-  const data = await dataJson.json() as GH_Release[];
+  const data = (await dataJson.json()) as GH_Release[];
 
   const lastSeen: semver.SemVer = semver.coerce(
     api_token_data?.lastSeen || "0.0.0",
@@ -43,13 +42,16 @@ export const get_release_items = async (
 
   const greatest = filtered.at(0);
   if (greatest) {
-    await api_tokens.findOneAndUpdate({ token: api_token_data.token }, {
-      $set: {
-        lastSeen: semver.coerce(greatest.name)?.toString(),
-        repo: urlObj.pathname,
-        expireAt: add(new Date(), { weeks: 2 }),
+    await api_tokens.findOneAndUpdate(
+      { token: api_token_data.token },
+      {
+        $set: {
+          lastSeen: semver.coerce(greatest.name)?.toString(),
+          repo: urlObj.pathname,
+          expireAt: add(new Date(), { weeks: 8 }),
+        },
       },
-    });
+    );
   }
 
   const feed_items = transformToFeed(filtered, semver_select);

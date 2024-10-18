@@ -7,8 +7,8 @@ type Props = {
 
 export const Page = ({ footer, children }: Props) => {
   return (
-    <>
-      <div class="min-h-[100lvh] min-h-[100vh]">
+    <div class="m-0 p-0">
+      <div class="min-h-[100lvh]">
         {children}
       </div>
       {footer && (
@@ -16,6 +16,6 @@ export const Page = ({ footer, children }: Props) => {
           {footer}
         </div>
       )}
-    </>
+    </div>
   );
 };
